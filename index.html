@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>범개미의 자기소개 페이지</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 위쪽 메뉴: 스크롤해도 따라와요 -->
+  <nav class="menu">
+    <a class="logo" href="#top">🐜 범개미</a>
+    <ul>
+      <li><a href="#about">소개</a></li>
+      <li><a href="#interests">관심사</a></li>
+      <li><a href="#projects">만든 것</a></li>
+      <li><a href="#contact">연락처</a></li>
+    </ul>
+  </nav>
+
+  <!-- 첫 화면: 그림 + 인사 -->
+  <header class="hero" id="top">
+    <img class="ant" src="ant.svg" alt="안전모를 쓰고 나뭇잎을 나르는 열심히 일하는 개미 만화">
+    <h1>안녕하세요, 범개미입니다</h1>
+    <p>지금은 공부하고, 만들고, 배운 걸 기록하고 연습하는 숨은 빛 청년이에요.</p>
+  </header>
+
+  <!-- 소개 -->
+  <section id="about">
+    <h2>소개</h2>
+    <!-- 한 줄 요약 -->
+    <p class="badge">지금은</p>
+    <div class="card left now">
+      <h3>☕ Java 공부 중</h3>
+      <p>비전공자라 전혀 새로운 분야예요. 모르던 걸 하나씩 알아 가는 재미로 달리는 중!</p>
+    </div>
+
+    <!-- 걸어온 길: 타임라인 -->
+    <h3 class="sub">지금까지 걸어온 길</h3>
+    <ol class="timeline">
+      <li><span class="icon">🛎️</span><div><strong>서비스업</strong><span class="when">약 5~6년</span></div></li>
+      <li><span class="icon">💼</span><div><strong>사무직</strong><span class="when">약 2년</span></div></li>
+      <li><span class="icon">🏗️</span><div><strong>건설 현장</strong><span class="when">몸으로 하는 일</span></div></li>
+      <li><span class="icon">📦</span><div><strong>쿠팡 물류</strong><span class="when">물류 현장</span></div></li>
+      <li class="now-step"><span class="icon">☕</span><div><strong>지금, Java 공부</strong><span class="when">새로운 도전 중</span></div></li>
+    </ol>
+
+    <!-- 키워드 -->
+    <div class="tags">
+      <span class="tag">#도전정신</span>
+      <span class="tag">#꾸준함</span>
+      <span class="tag">#일단_부딪쳐보기</span>
+      <span class="tag">#여행_유튜브</span>
+    </div>
+
+    <!-- 블로그 -->
+    <div class="card blog">
+      <div>
+        <h3>✍️ 편하게 쓰는 내 블로그</h3>
+        <p class="small">일상 일기를 편하게 적어요. 가끔 영화 리뷰도 🎬</p>
+      </div>
+      <a class="btn" href="https://blog.naver.com/beomgaemi" target="_blank" rel="noopener noreferrer">블로그 가기 →</a>
+    </div>
+  </section>
+
+  <!-- 관심사 -->
+  <section id="interests">
+    <h2>관심사</h2>
+    <div class="cards">
+      <article class="card">
+        <span class="emoji">💻</span>
+        <h3>Java 공부</h3>
+        <p class="small">새로운 분야에 도전 중</p>
+      </article>
+      <article class="card">
+        <span class="emoji">▶️</span>
+        <h3>여행 유튜브</h3>
+        <p class="small">좋아하는 채널: 박소룡</p>
+      </article>
+      <article class="card">
+        <span class="emoji">📝</span>
+        <h3>일상 일기</h3>
+        <p class="small">블로그에 하루를 기록해요</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 만든 것 -->
+  <section id="projects">
+    <h2>만든 것</h2>
+    <div class="cards">
+      <a class="card link" href="pomodoro.html">
+        <span class="emoji">🍅</span>
+        <h3>뽀모도로 할 일 앱</h3>
+        <p class="small">50분 집중 / 10분 휴식</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- 연락처 -->
+  <section id="contact">
+    <h2>연락처</h2>
+    <div class="card">
+      <p>이메일: xxxxxx1xxxxxx@naver.com</p>
+      <a class="btn"
+         href="mailto:xxxxxx1xxxxxx@naver.com?subject=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94%20%EB%B2%94%EA%B0%9C%EB%AF%B8%EB%8B%98&body=%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94%2C%20">
+        ✉️ 메일 보내기
+      </a>
+    </div>
+  </section>
+
+</body>
+</html>

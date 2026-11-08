@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>뽀모도로 할 일</title>
+<style>
+  :root {
+    --bg:#16181d; --fg:#e8e8ea; --muted:#8b8f98; --line:#2c2f37; --card:#1f2229; --hover:#2a2e37;
+    --work:#ff6b70; --rest:#4cc38a; --long:#5aa9ff; --accent:var(--work); color-scheme:dark;
+  }
+  :root[data-theme=light] {
+    --bg:#ffffff; --fg:#222; --muted:#80848c; --line:#e6e6e6; --card:#f6f6f7; --hover:#ececee;
+    --work:#e5484d; --rest:#2f9e6e; --long:#2a7fd4; color-scheme:light;
+  }
+  body.short { --accent:var(--rest); }
+  body.long { --accent:var(--long); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:"Malgun Gothic",system-ui,sans-serif; display:flex; justify-content:center; padding:24px 16px 48px; }
+  main { width:100%; max-width:440px; }
+  .top { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:15px; margin-bottom:16px; }
+  .top button { padding:4px 10px; font-size:14px; }
+  .mode { text-align:center; font-weight:700; color:var(--accent); letter-spacing:.05em; }
+  .time { text-align:center; font-size:84px; font-weight:700; font-variant-numeric:tabular-nums; margin:8px 0; color:var(--accent); }
+  .bar { height:6px; background:var(--line); border-radius:3px; overflow:hidden; }
+  .bar > i { display:block; height:100%; width:0; background:var(--accent); transition:width .3s linear; }
+  .btns { display:flex; gap:8px; justify-content:center; margin:20px 0 6px; }
+  button { font:inherit; cursor:pointer; border:1px solid var(--line); background:var(--card); color:var(--fg); padding:8px 16px; border-radius:8px; }
+  button:hover { background:var(--hover); }
+  button.primary { background:var(--accent); color:#fff; border-color:var(--accent); min-width:90px; }
+  button.primary:hover { opacity:.9; }
+  .hint { text-align:center; color:var(--muted); font-size:12px; margin-bottom:10px; }
+  .today { text-align:center; font-size:14px; margin-bottom:16px; }
+  .today b { color:var(--accent); }
+
+  details { border:1px solid var(--line); border-radius:10px; margin-bottom:12px; background:var(--card); }
+  summary { cursor:pointer; padding:10px 14px; font-size:14px; color:var(--muted); user-select:none; }
+  details[open] summary { border-bottom:1px solid var(--line); }
+  .pad { padding:12px 14px; font-size:14px; }
+  .row { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px; }
+  .row:last-child { margin-bottom:0; }
+  .pad input[type=number], .pad select { width:80px; font:inherit; padding:4px 6px; border:1px solid var(--line); border-radius:6px; background:var(--bg); color:var(--fg); }
+  .pad input[type=range] { width:120px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  td, th { padding:5px 4px; text-align:right; }
+  td:first-child, th:first-child { text-align:left; }
+  th { color:var(--muted); font-weight:400; }
+
+  .current { text-align:center; font-size:14px; color:var(--muted); margin:16px 0 10px; min-height:20px; }
+  .current b { color:var(--fg); }
+  form { display:flex; gap:8px; margin-bottom:10px; }
+  input[type=text] { flex:1; min-width:0; font:inherit; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--fg); }
+  form input[type=number] { width:56px; font:inherit; padding:8px 6px; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--fg); }
+  .tools { display:flex; justify-content:flex-end; gap:6px; margin-bottom:6px; }
+  .tools button { padding:3px 10px; font-size:13px; color:var(--muted); }
+  ul { list-style:none; padding:0; margin:0; }
+  li { display:flex; align-items:center; gap:10px; padding:10px 8px; border-bottom:1px solid var(--line); cursor:pointer; }
+  li.sel { background:var(--card); box-shadow:inset 3px 0 0 var(--accent); }
+  li.done span.t { text-decoration:line-through; color:var(--muted); }
+  li.dragging { opacity:.4; }
+  li.over { border-top:2px solid var(--accent); }
+  span.t { flex:1; word-break:break-all; }
+  span.p { font-size:13px; color:var(--muted); white-space:nowrap; }
+  .grip { color:var(--muted); cursor:grab; user-select:none; }
+  li .x { border:none; padding:2px 8px; color:var(--muted); background:none; }
+  li .x:hover { color:var(--work); }
+  .empty { text-align:center; color:var(--muted); padding:20px; font-size:14px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <span id="date"></span>
+    <button id="themeBtn" title="테마 전환">🌙</button>
+  </div>
+
+  <div class="mode" id="mode">집중</div>
+  <div class="time" id="time">50:00</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="btns">
+    <button class="primary" id="start">시작</button>
+    <button id="reset">초기화</button>
+    <button id="skip">건너뛰기</button>
+  </div>
+  <div class="hint">단축키: Space 시작/정지 · R 초기화 · S 건너뛰기</div>
+  <div class="today" id="today"></div>
+
+  <details id="settings">
+    <summary>⚙ 설정</summary>
+    <div class="pad">
+      <div class="row"><label for="sWork">집중 (분)</label><input type="number" id="sWork" min="1" max="180"></div>
+      <div class="row"><label for="sShort">짧은 휴식 (분)</label><input type="number" id="sShort" min="1" max="60"></div>
+      <div class="row"><label for="sAuto">다음 단계 자동 시작</label><input type="checkbox" id="sAuto"></div>
+      <div class="row"><label for="sNotify">브라우저 알림</label><input type="checkbox" id="sNotify"></div>
+      <div class="row"><label for="sSound">알림음</label>
+        <select id="sSound"><option value="beep">삐-</option><option value="bell">종소리</option><option value="digital">디지털</option><option value="off">끔</option></select></div>
+      <div class="row"><label for="sVol">볼륨</label><input type="range" id="sVol" min="0" max="100"></div>
+      <div class="row"><span></span><button id="testSound">알림음 들어보기</button></div>
+    </div>
+  </details>
+
+  <details id="history">
+    <summary>📊 최근 기록</summary>
+    <div class="pad"><table id="histTable"></table></div>
+  </details>
+
+  <div class="current" id="current"></div>
+  <form id="form">
+    <input type="text" id="input" placeholder="할 일을 입력하세요" autocomplete="off">
+    <input type="number" id="est" min="1" max="20" value="1" title="예상 뽀모도로 수">
+    <button>추가</button>
+  </form>
+  <div class="tools">
+    <button id="toggleDone"></button>
+    <button id="clearDone">완료 항목 삭제</button>
+  </div>
+  <ul id="list"></ul>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+
+/* ---------- 상태 ---------- */
+const DEFAULTS = { work:50, short:10, long:15, every:4, auto:true, notify:false, sound:'beep', vol:50 };
+let cfg = Object.assign({}, DEFAULTS, load('pomo.cfg', {}));
+let tasks = load('pomo.tasks', []);          // {id,text,done,pomos,est}
+let selected = load('pomo.sel', null);
+let hist = load('pomo.hist', {});            // {'YYYY-MM-DD': {pomos, min}}
+let hideDone = load('pomo.hideDone', false);
+let theme = load('pomo.theme', 'dark');
+
+let mode = 'work';                           // work | short | long
+let cycle = 0;                               // 완료한 집중 횟수 (긴 휴식 판단용)
+let remain = cfg.work * 60, endAt = null, timer = null;
+
+const lenOf = m => (m === 'work' ? cfg.work : cfg.short) * 60;
+const label = { work:'집중', short:'휴식' };
+const fmt = s => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+const todayKey = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+
+/* ---------- 소리 / 알림 ---------- */
+function playSound(type = cfg.sound) {
+  if (type === 'off' || cfg.vol === 0) return;
+  try {
+    const c = new (window.AudioContext || window.webkitAudioContext)();
+    const vol = cfg.vol / 100 * 0.4;
+    const spec = {
+      beep:    { wave:'sine',     freqs:[880, 880, 880],  gap:.25, len:.2 },
+      bell:    { wave:'triangle', freqs:[660, 990],       gap:.45, len:.9 },
+      digital: { wave:'square',   freqs:[1200, 900, 1200, 900], gap:.15, len:.1 },
+    }[type];
+    spec.freqs.forEach((f, i) => {
+      const t = c.currentTime + i * spec.gap;
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = spec.wave; o.frequency.value = f;
+      o.connect(g); g.connect(c.destination);
+      g.gain.setValueAtTime(vol, t);
+      g.gain.exponentialRampToValueAtTime(.001, t + spec.len);
+      o.start(t); o.stop(t + spec.len);
+    });
+  } catch {}
+}
+function notify(title, body) {
+  if (!cfg.notify || !('Notification' in window) || Notification.permission !== 'granted') return;
+  try { new Notification(title, { body }); } catch {}
+}
+
+/* ---------- 기록 ---------- */
+function addHistory(min) {
+  const k = todayKey();
+  const h = hist[k] || { pomos:0, min:0 };
+  h.pomos++; h.min += min; hist[k] = h;
+  save('pomo.hist', hist);
+}
+function renderToday() {
+  const h = hist[todayKey()] || { pomos:0, min:0 };
+  const hh = Math.floor(h.min / 60), mm = h.min % 60;
+  const t = hh ? hh + '시간 ' + mm + '분' : mm + '분';
+  $('today').innerHTML = '오늘 🍅 <b>' + h.pomos + '</b>개 · 집중 <b>' + t + '</b>';
+}
+function renderHistory() {
+  const rows = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const k = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    const h = hist[k] || { pomos:0, min:0 };
+    rows.push('<tr><td>' + (d.getMonth() + 1) + '/' + d.getDate() + (i === 0 ? ' (오늘)' : '') + '</td><td>🍅 ' + h.pomos + '</td><td>' + h.min + '분</td></tr>');
+  }
+  $('histTable').innerHTML = '<tr><th>날짜</th><th>뽀모도로</th><th>집중 시간</th></tr>' + rows.join('');
+}
+
+/* ---------- 타이머 ---------- */
+function renderTimer() {
+  const len = lenOf(mode);
+  $('time').textContent = fmt(remain);
+  $('mode').textContent = label[mode];
+  $('bar').style.width = ((len - remain) / len * 100) + '%';
+  $('start').textContent = timer ? '일시정지' : '시작';
+  document.body.className = mode === 'work' ? '' : mode;
+  document.title = (timer ? fmt(remain) + ' · ' : '') + label[mode] + ' - 뽀모도로';
+}
+
+function nextMode(fromWork) {
+  if (!fromWork) return 'work';
+  return 'short';
+}
+
+function finish() {
+  const wasWork = mode === 'work';
+  if (wasWork) {
+    cycle++;
+    addHistory(cfg.work);
+    const t = tasks.find(t => t.id === selected);
+    if (t) { t.pomos++; save('pomo.tasks', tasks); renderList(); }
+    renderToday(); renderHistory();
+  }
+  mode = nextMode(wasWork);
+  remain = lenOf(mode);
+  playSound();
+  notify(wasWork ? '집중 끝! 쉬어가요' : '휴식 끝! 다시 집중해요', label[mode] + ' ' + Math.round(remain / 60) + '분');
+  if (cfg.auto) endAt = Date.now() + remain * 1000;
+  else { clearInterval(timer); timer = null; }
+}
+
+function tick() {
+  remain = Math.max(0, Math.round((endAt - Date.now()) / 1000));
+  if (remain === 0) finish();
+  renderTimer();
+}
+
+function toggle() {
+  if (timer) { clearInterval(timer); timer = null; }
+  else {
+    if (cfg.notify && 'Notification' in window && Notification.permission === 'default') Notification.requestPermission();
+    endAt = Date.now() + remain * 1000;
+    timer = setInterval(tick, 250);
+  }
+  renderTimer();
+}
+function resetTimer() { clearInterval(timer); timer = null; remain = lenOf(mode); renderTimer(); }
+function skip() {
+  const running = !!timer;
+  clearInterval(timer); timer = null;
+  mode = nextMode(mode === 'work');
+  remain = lenOf(mode);
+  renderTimer();
+  if (running) toggle();
+}
+
+$('start').onclick = toggle;
+$('reset').onclick = resetTimer;
+$('skip').onclick = skip;
+
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'SUMMARY'].includes(e.target.tagName)) return;
+  if (e.code === 'Space') { e.preventDefault(); toggle(); }
+  else if (e.key === 'r' || e.key === 'R') resetTimer();
+  else if (e.key === 's' || e.key === 'S') skip();
+});
+
+/* ---------- 설정 ---------- */
+function initSettings() {
+  $('sWork').value = cfg.work; $('sShort').value = cfg.short;
+  $('sAuto').checked = cfg.auto; $('sNotify').checked = cfg.notify;
+  $('sSound').value = cfg.sound; $('sVol').value = cfg.vol;
+}
+function num(el, min, max, fallback) {
+  const v = parseInt(el.value, 10);
+  return Number.isFinite(v) ? Math.min(max, Math.max(min, v)) : fallback;
+}
+function readSettings() {
+  cfg.work = num($('sWork'), 1, 180, cfg.work);
+  cfg.short = num($('sShort'), 1, 60, cfg.short);
+  cfg.auto = $('sAuto').checked;
+  cfg.sound = $('sSound').value;
+  cfg.vol = num($('sVol'), 0, 100, cfg.vol);
+  save('pomo.cfg', cfg);
+  if (!timer) { remain = lenOf(mode); }   // 실행 중이면 다음 단계부터 적용
+  renderTimer();
+}
+['sWork', 'sShort', 'sAuto', 'sSound', 'sVol'].forEach(id => $(id).addEventListener('change', readSettings));
+$('sNotify').onchange = async () => {
+  if ($('sNotify').checked) {
+    if (!('Notification' in window)) { alert('이 브라우저는 알림을 지원하지 않아요.'); $('sNotify').checked = false; return; }
+    let p = Notification.permission;
+    if (p === 'default') p = await Notification.requestPermission();
+    if (p !== 'granted') { alert('브라우저에서 알림이 차단되어 있어요. 주소창 왼쪽 자물쇠에서 허용해 주세요.'); $('sNotify').checked = false; }
+  }
+  cfg.notify = $('sNotify').checked; save('pomo.cfg', cfg);
+};
+$('testSound').onclick = () => { readSettings(); playSound(); };
+
+/* ---------- 테마 ---------- */
+function applyTheme() {
+  document.documentElement.dataset.theme = theme;
+  $('themeBtn').textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+$('themeBtn').onclick = () => { theme = theme === 'dark' ? 'light' : 'dark'; save('pomo.theme', theme); applyTheme(); };
+
+/* ---------- 할 일 ---------- */
+let dragId = null;
+function renderList() {
+  const ul = $('list');
+  ul.innerHTML = '';
+  const shown = tasks.filter(t => !(hideDone && t.done));
+  if (!shown.length) ul.innerHTML = '<div class="empty">' + (tasks.length ? '표시할 할 일이 없어요.' : '할 일을 추가해 보세요.') + '</div>';
+  shown.forEach(t => {
+    const li = document.createElement('li');
+    li.className = (t.done ? 'done ' : '') + (t.id === selected ? 'sel' : '');
+    li.draggable = true;
+
+    const grip = document.createElement('span'); grip.className = 'grip'; grip.textContent = '⠿';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = t.done;
+    cb.onclick = e => e.stopPropagation();
+    cb.onchange = () => { t.done = cb.checked; save('pomo.tasks', tasks); renderList(); };
+    const tx = document.createElement('span'); tx.className = 't'; tx.textContent = t.text;
+    const p = document.createElement('span'); p.className = 'p';
+    p.textContent = '🍅 ' + t.pomos + '/' + t.est;
+    const x = document.createElement('button'); x.className = 'x'; x.textContent = '✕';
+    x.onclick = e => {
+      e.stopPropagation();
+      tasks = tasks.filter(a => a.id !== t.id);
+      if (selected === t.id) selected = null;
+      save('pomo.tasks', tasks); save('pomo.sel', selected); renderList();
+    };
+    li.onclick = () => { selected = selected === t.id ? null : t.id; save('pomo.sel', selected); renderList(); };
+
+    li.ondragstart = e => { dragId = t.id; li.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(t.id)); };
+    li.ondragend = () => { dragId = null; renderList(); };
+    li.ondragover = e => { if (dragId !== null && dragId !== t.id) { e.preventDefault(); li.classList.add('over'); } };
+    li.ondragleave = () => li.classList.remove('over');
+    li.ondrop = e => {
+      e.preventDefault();
+      if (dragId === null || dragId === t.id) return;
+      const from = tasks.findIndex(a => a.id === dragId);
+      const [moved] = tasks.splice(from, 1);
+      const to = tasks.findIndex(a => a.id === t.id);
+      tasks.splice(to, 0, moved);
+      save('pomo.tasks', tasks); dragId = null; renderList();
+    };
+
+    li.append(grip, cb, tx, p, x);
+    ul.append(li);
+  });
+  const cur = tasks.find(t => t.id === selected);
+  $('current').innerHTML = cur ? '지금 할 일: <b></b>' : '할 일을 클릭하면 뽀모도로가 기록돼요 (끌어서 순서 변경)';
+  if (cur) $('current').querySelector('b').textContent = cur.text;
+  $('toggleDone').textContent = hideDone ? '완료 항목 보기' : '완료 항목 숨기기';
+}
+
+$('form').onsubmit = e => {
+  e.preventDefault();
+  const text = $('input').value.trim();
+  if (!text) return;
+  const est = num($('est'), 1, 20, 1);
+  const t = { id: Date.now(), text, done:false, pomos:0, est };
+  tasks.push(t);
+  if (selected === null) selected = t.id;
+  save('pomo.tasks', tasks); save('pomo.sel', selected);
+  $('input').value = ''; $('est').value = 1;
+  renderList();
+};
+$('toggleDone').onclick = () => { hideDone = !hideDone; save('pomo.hideDone', hideDone); renderList(); };
+$('clearDone').onclick = () => {
+  const n = tasks.filter(t => t.done).length;
+  if (!n) return;
+  if (!confirm('완료된 할 일 ' + n + '개를 삭제할까요?')) return;
+  tasks = tasks.filter(t => !t.done);
+  if (!tasks.some(t => t.id === selected)) selected = null;
+  save('pomo.tasks', tasks); save('pomo.sel', selected); renderList();
+};
+
+/* ---------- 날짜 / 초기화 ---------- */
+function renderDate() {
+  $('date').textContent = new Date().toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+  renderToday(); renderHistory();
+}
+setInterval(renderDate, 60000);
+
+// 예전 버전에서 저장된 할 일에 est가 없으면 보정
+tasks.forEach(t => { if (!t.est) t.est = 1; });
+
+applyTheme();
+initSettings();
+renderDate();
+renderList();
+renderTimer();
+</script>
+</body>
+</html>
