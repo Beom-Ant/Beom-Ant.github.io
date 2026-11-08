@@ -100,6 +100,124 @@ section, .hero {
   50%      { transform: translateY(-10px) rotate(2deg); }
 }
 
+/* Java 공부 기록 */
+.status {
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+.status b {
+  color: var(--accent);
+}
+
+.topics {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.topics li {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  padding: 10px 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.topics li::before {              /* 초록 체크 */
+  content: "✓";
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.topics small {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* 여행 버킷리스트 */
+.dream {
+  text-align: center;
+  padding: 28px 20px;
+  margin-bottom: 12px;
+  background: linear-gradient(160deg, #1b2c44, var(--card));
+}
+
+.dream .flag {
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .4);
+}
+
+.dream .big {
+  font-size: 52px;
+  line-height: 1;
+}
+
+.dream h3 {
+  margin: 8px 0 4px;
+  font-size: 22px;
+}
+
+.dream p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* 비어 있는 칸 (점선) */
+.empty-card {
+  border-style: dashed;
+  background: transparent;
+  color: var(--muted);
+}
+
+.empty-card:hover {
+  transform: none;
+  border-color: var(--line);
+}
+
+.empty-card p {
+  margin: 0;
+}
+
+/* 맨 아래, 맨 위로 버튼 */
+.footer {
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.to-top {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #08140e;
+  font-size: 22px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+}
+
+.to-top:hover {
+  filter: brightness(1.1);
+}
+
 /* 폰처럼 좁은 화면 (화면 폭이 520px 이하일 때) */
 @media (max-width: 520px) {
   body {
@@ -248,7 +366,6 @@ section, .hero {
   color: var(--muted);
   font-size: 14px;
 }
-
 /* 키워드 태그 */
 .tags {
   display: flex;

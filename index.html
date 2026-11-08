@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>범개미의 자기소개 페이지</title>
+  <link rel="icon" href="ant.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +14,8 @@
     <a class="logo" href="#top">🐜 범개미</a>
     <ul>
       <li><a href="#about">소개</a></li>
-      <li><a href="#interests">관심사</a></li>
+      <li><a href="#java">Java</a></li>
+      <li><a href="#travel">여행</a></li>
       <li><a href="#projects">만든 것</a></li>
       <li><a href="#contact">연락처</a></li>
     </ul>
@@ -39,10 +41,10 @@
     <!-- 걸어온 길: 타임라인 -->
     <h3 class="sub">지금까지 걸어온 길</h3>
     <ol class="timeline">
-      <li><span class="icon">🛎️</span><div><strong>서비스업</strong><span class="when">약 5~6년</span></div></li>
-      <li><span class="icon">💼</span><div><strong>사무직</strong><span class="when">약 2년</span></div></li>
-      <li><span class="icon">🏗️</span><div><strong>건설 현장</strong><span class="when">몸으로 하는 일</span></div></li>
-      <li><span class="icon">📦</span><div><strong>쿠팡 물류</strong><span class="when">물류 현장</span></div></li>
+      <li><span class="icon">🛎️</span><div><strong>서비스업 현장직</strong><span class="when">약 4년</span></div></li>
+      <li><span class="icon">💼</span><div><strong>서비스업 사무직</strong><span class="when">약 2년</span></div></li>
+      <li><span class="icon">🏗️</span><div><strong>건설 현장</strong><span class="when">약 6개월</span></div></li>
+      <li><span class="icon">📦</span><div><strong>쿠팡 물류</strong><span class="when">약 2개월</span></div></li>
       <li class="now-step"><span class="icon">☕</span><div><strong>지금, Java 공부</strong><span class="when">새로운 도전 중</span></div></li>
     </ol>
 
@@ -86,6 +88,43 @@
     </div>
   </section>
 
+  <!-- Java 공부 기록 -->
+  <section id="java">
+    <h2>Java 공부 기록 ☕</h2>
+    <p class="status">배운 것 <b>7</b>개 완료 · 지금은 <b>배열</b> 시작 단계</p>
+
+    <ul class="topics">
+      <li><strong>변수</strong></li>
+      <li><strong>연산자</strong></li>
+      <li><strong>조건문</strong><small>if · else · else if · switch</small></li>
+      <li><strong>반복문</strong><small>while · do-while · break · for</small></li>
+      <li><strong>스코프</strong></li>
+      <li><strong>형변환</strong></li>
+      <li><strong>Scanner 기본기</strong></li>
+    </ul>
+
+    <div class="card left now">
+      <h3>🔥 지금 공부 중: 배열</h3>
+      <p>이제 막 시작했어요. 배운 걸 하나씩 쌓아 가는 중!</p>
+    </div>
+  </section>
+
+  <!-- 여행 버킷리스트 -->
+  <section id="travel">
+    <h2>여행 버킷리스트 ✈️</h2>
+    <div class="card dream">
+      <svg class="flag" viewBox="0 0 32 32" width="56" height="56" role="img" aria-label="스위스 국기">
+        <rect width="32" height="32" rx="4" fill="#d52b1e"/>
+        <path fill="#fff" d="M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z"/>
+      </svg>
+      <h3>스위스 (CH)</h3>
+      <p>가보는 게 꿈이에요. 여행 유튜브를 보면서 미리 상상하는 중! 🏔️</p>
+    </div>
+    <div class="card empty-card">
+      <p class="small">다음 가고 싶은 곳은… 차차 채워 갈게요 ✍️</p>
+    </div>
+  </section>
+
   <!-- 만든 것 -->
   <section id="projects">
     <h2>만든 것</h2>
@@ -95,6 +134,16 @@
         <h3>뽀모도로 할 일 앱</h3>
         <p class="small">50분 집중 / 10분 휴식</p>
       </a>
+      <a class="card link" href="#top">
+        <span class="emoji">🐜</span>
+        <h3>이 자기소개 사이트</h3>
+        <p class="small">HTML · CSS 연습으로 만들었어요</p>
+      </a>
+      <div class="card empty-card">
+        <span class="emoji">🛠️</span>
+        <h3>다음 작품은?</h3>
+        <p class="small">만드는 중이에요</p>
+      </div>
     </div>
   </section>
 
@@ -109,6 +158,14 @@
       </a>
     </div>
   </section>
+
+  <!-- 맨 아래 -->
+  <footer class="footer">
+    <p>© 2026 범개미 · 열심히 일하는 개미가 만든 사이트 🐜</p>
+  </footer>
+
+  <!-- 맨 위로 버튼 -->
+  <a class="to-top" href="#top" aria-label="맨 위로">↑</a>
 
 </body>
 </html>
