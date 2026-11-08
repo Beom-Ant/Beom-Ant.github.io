@@ -99,6 +99,57 @@ section, .hero {
   50%      { transform: translateY(-10px) rotate(2deg); }
 }
 
+/* 폰처럼 좁은 화면 (화면 폭이 520px 이하일 때) */
+@media (max-width: 520px) {
+  body {
+    padding: 36px 14px;
+  }
+
+  .menu {
+    margin: -36px -14px 0;
+    padding: 10px 12px;
+  }
+
+  .menu ul {
+    gap: 0;
+  }
+
+  .menu a {
+    padding: 6px 7px;
+    font-size: 14px;
+  }
+
+  .menu .logo {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 27px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .ant {
+    width: 180px;
+  }
+
+  .timeline {
+    padding-left: 18px;
+  }
+
+  .timeline li {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .blog .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 /* 움직임을 줄여 달라고 설정한 사람은 멈춰요 */
 @media (prefers-reduced-motion: reduce) {
   .ant { animation: none; }
