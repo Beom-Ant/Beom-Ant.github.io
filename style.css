@@ -69,6 +69,7 @@ section, .hero {
   text-decoration: none;
   padding: 6px 10px;
   border-radius: 8px;
+  white-space: nowrap;          /* "만든 것"처럼 띄어쓰기가 있어도 줄바꿈하지 않아요 */
 }
 
 .menu ul a:hover {
@@ -142,6 +143,10 @@ section, .hero {
   .timeline li {
     padding: 10px 12px;
     gap: 10px;
+  }
+
+  .timeline li::before {
+    left: -26px;                /* 세로줄 위에 점이 오도록 위치 보정 */
   }
 
   .blog .btn {
