@@ -458,3 +458,14 @@ a.card.link {
 .btn:hover {
   filter: brightness(1.1);
 }
+
+button.btn {                      /* <button>으로 만든 버튼도 같은 모양으로 */
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.footer .btn {
+  margin-bottom: 14px;
+}

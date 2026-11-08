@@ -4,8 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>범개미의 자기소개 페이지</title>
+  <meta name="description" content="Java를 공부하는 숨은 빛 청년, 범개미의 자기소개 사이트">
+
+  <!-- 링크를 공유했을 때 보이는 카드 (카카오톡, 디스코드 등) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="범개미의 자기소개 페이지">
+  <meta property="og:description" content="Java를 공부하는 숨은 빛 청년의 사이트 🐜">
+  <meta property="og:url" content="https://beom-ant.github.io/">
+  <meta property="og:image" content="https://beom-ant.github.io/preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="icon" href="ant.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
@@ -161,11 +173,32 @@
 
   <!-- 맨 아래 -->
   <footer class="footer">
+    <button class="btn" id="copyBtn" type="button">🔗 이 사이트 링크 복사</button>
     <p>© 2026 범개미 · 열심히 일하는 개미가 만든 사이트 🐜</p>
   </footer>
 
   <!-- 맨 위로 버튼 -->
   <a class="to-top" href="#top" aria-label="맨 위로">↑</a>
+
+  <script>
+    // "링크 복사" 버튼: 누르면 지금 주소를 복사해요
+    const copyBtn = document.getElementById('copyBtn');
+    copyBtn.addEventListener('click', async () => {
+      const url = location.href.split('#')[0];
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch (e) {
+        const t = document.createElement('textarea');   // 옛날 방식 (예비)
+        t.value = url;
+        document.body.appendChild(t);
+        t.select();
+        document.execCommand('copy');
+        t.remove();
+      }
+      copyBtn.textContent = '✅ 복사했어요!';
+      setTimeout(() => { copyBtn.textContent = '🔗 이 사이트 링크 복사'; }, 2000);
+    });
+  </script>
 
 </body>
 </html>
