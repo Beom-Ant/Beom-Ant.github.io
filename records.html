@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>기록 · 오영범 개인전</title>
+  <meta name="description" content="오영범 개인전 제4관: 일기와 기록">
+  <link rel="icon" href="ant.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap">
+  <link rel="stylesheet" href="exhibition.css?v=13">
+</head>
+<body class="gallery room">
+
+  <nav class="menu">
+    <a class="logo" href="exhibition.html">🖼️ 오영범 개인전</a>
+    <ul>
+      <li class="has-sub">
+        <a href="about.html">소개</a>
+        <ul class="submenu">
+          <li><a href="about.html#path">걸어온 길</a></li>
+          <li><a href="about.html#challenge">지금의 도전</a></li>
+          <li><a href="about.html#personality">성격</a></li>
+          <li><a href="about.html#values">가치관</a></li>
+          <li><a href="about.html#note">작가 노트</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <a href="domestic.html">여행</a>
+        <ul class="submenu">
+          <li><a href="domestic.html">국내</a></li>
+          <li><a href="overseas.html">국외</a></li>
+        </ul>
+      </li>
+      <li><a href="records.html" aria-current="page">기록</a></li>
+      <li><a href="exhibition.html">로비</a></li>
+    </ul>
+  </nav>
+
+  <main class="room-page">
+    <div class="room-head">
+      <p class="crumb">기록 › 일기</p>
+      <p class="room-no">제 4관</p>
+      <h2>오늘의 기록 📝</h2>
+      <p class="room-intro">거창하지 않아요. 하루를 편하게 적어 둔 일기를 모아 둔 방이에요.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="소분류"></div>
+
+    <div class="stage">
+
+      <div class="sub" data-slug="diary" data-name="일기">
+        <figure class="frame">
+          <div class="art">
+            <span class="big">✍️</span>
+          </div>
+          <figcaption class="plate">
+            <strong>〈 편하게 쓰는 하루 〉</strong>
+            <span class="meta">글 · 네이버 블로그 연재 중</span>
+            <span class="desc">일상 일기를 편하게 적어요. 가끔 영화 리뷰도 🎬</span>
+            <a class="btn small-btn" href="https://blog.naver.com/beomgaemi" target="_blank" rel="noopener noreferrer">원본 보러 가기 →</a>
+          </figcaption>
+        </figure>
+
+        <figure class="frame empty">
+          <div class="art"><span class="big">🖼️</span></div>
+          <figcaption class="plate">
+            <strong>〈 준비 중 〉</strong>
+            <span class="desc">마음에 드는 일기 한 편을 골라 이곳에 걸어 둘 예정이에요.</span>
+          </figcaption>
+        </figure>
+      </div>
+
+    </div>
+
+    <div class="pager" aria-label="작품 넘기기">
+      <button class="prev" type="button" aria-label="이전 작품">‹</button>
+      <span class="counter" aria-live="polite"></span>
+      <button class="next" type="button" aria-label="다음 작품">›</button>
+    </div>
+
+    <a class="back-lobby" href="exhibition.html">← 로비로 나가기</a>
+  </main>
+
+  <script src="exhibition.js"></script>
+</body>
+</html>

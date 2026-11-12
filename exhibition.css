@@ -1,0 +1,858 @@
+/* 오영범 개인전 - 전시장 스타일 (style.css와 별개로 따로 만든 파일이에요) */
+:root {
+  --wall: #1d1b1a;        /* 벽: 짙은 목탄색 */
+  --wall-light: #2a2624;  /* 조명이 닿는 벽 */
+  --ivory: #efe8d8;       /* 액자 매트, 글자 */
+  --muted: #a39b8b;       /* 흐린 글자 */
+  --brass: #b8985a;       /* 황동 포인트 */
+  --wood: #3b2a1e;        /* 액자 나무 */
+  --wine: #5a1f2b;        /* 와인색 포인트 */
+  --serif: "Noto Serif KR", "Batang", "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body.gallery {
+  margin: 0;
+  color: var(--ivory);
+  font-family: var(--serif);
+  line-height: 1.8;
+  /* 벽: 위에서 내려오는 조명 + 은은한 세로 줄무늬 */
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(255, 232, 180, .10), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 2px, transparent 2px 46px),
+    var(--wall);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+a { color: inherit; }
+
+/* ---------- 위쪽 메뉴 ---------- */
+.menu {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: rgba(29, 27, 26, .92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(184, 152, 90, .35);
+}
+
+.menu .logo {
+  text-decoration: none;
+  letter-spacing: .12em;
+  font-size: 15px;
+  color: var(--brass);
+  white-space: nowrap;
+}
+
+.menu ul {
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu ul a {
+  text-decoration: none;
+  font-size: 14px;
+  color: var(--muted);
+  white-space: nowrap;
+  letter-spacing: .06em;
+  transition: color .2s;
+}
+
+.menu ul a:hover { color: var(--ivory); }
+
+/* ---------- 펼쳐지는 메뉴 (마우스를 올리면 아래에 소분류가 나와요) ---------- */
+.menu li.has-sub { position: relative; }
+
+.menu ul.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;                      /* 메뉴 바로 아래에 붙여서 마우스가 이동하는 중에 닫히지 않게 */
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column;
+  gap: 0;
+  min-width: 140px;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  background: rgba(29, 27, 26, .98);
+  border: 1px solid rgba(184, 152, 90, .4);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, .55);
+  animation: drop .18s ease both;
+}
+
+.menu li.has-sub:hover > .submenu,
+.menu li.has-sub:focus-within > .submenu { display: flex; }
+
+.menu .submenu a {
+  display: block;
+  padding: 8px 20px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.menu .submenu a:hover {
+  background: rgba(184, 152, 90, .15);
+  color: var(--ivory);
+}
+
+@keyframes drop {
+  from { opacity: 0; transform: translate(-50%, -6px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* 위쪽 큰 메뉴가 열려 있는 동안 글자색 표시 */
+.menu li.has-sub:hover > a { color: var(--ivory); }
+
+/* ---------- 입구 ---------- */
+.entrance {
+  position: relative;
+  text-align: center;
+  padding: 56px 20px 40px;
+}
+
+.kicker {
+  margin: 0;
+  letter-spacing: .5em;
+  font-size: 11px;
+  color: var(--brass);
+}
+
+.entrance h1 {
+  margin: 20px 0 8px;
+  font-size: 46px;
+  font-weight: 400;
+  letter-spacing: .14em;
+  color: var(--ivory);
+}
+
+/* 제목 아래 황동 줄 */
+.entrance h1::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 1px;
+  margin: 22px auto 0;
+  background: var(--brass);
+}
+
+.subtitle {
+  margin: 20px 0 8px;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* 로비 맨 앞의 작가 초상 */
+.lobby-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 30px 20px 0;
+}
+
+.lobby-info { width: 100%; }
+
+.lobby-portrait {
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+/* 넓은 화면(컴퓨터): 왼쪽 초상 + 오른쪽 제목·안내도로 한 화면에 담아요 */
+@media (min-width: 900px) {
+  .lobby-wrap {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+    padding-top: 28px;
+  }
+
+  .lobby-portrait { margin: 0; }
+
+  .lobby-wrap .lobby-portrait .art.photo img {
+    max-height: min(580px, calc(100vh - 170px));
+    max-height: min(580px, calc(100dvh - 170px));
+  }
+
+  .lobby-info .entrance { padding: 0 0 22px; }
+  .lobby-info .entrance h1 { margin: 12px 0 4px; font-size: 40px; }
+  .lobby-info .entrance h1::after { margin-top: 16px; }
+  .lobby-info .subtitle { margin: 14px 0 6px; }
+  .lobby-info .preface { margin-bottom: 10px; }
+  .lobby-info .hall-info { margin-bottom: 0; }
+  /* 안내도: 소개는 윗줄 전체, 여행과 기록은 나란히 */
+  .lobby-info .map {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 26px;
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 16px 24px;
+  }
+  .lobby-info .map-title { grid-column: 1 / -1; margin-bottom: 8px; }
+  .lobby-info .map-group:first-of-type { grid-column: 1 / -1; }
+  .lobby-info .map-group + .map-group { margin-top: 10px; padding-top: 10px; }
+  .lobby-info .lv1 { margin-bottom: 4px; font-size: 16px; }
+  .lobby-info .lv2-row { padding: 2px 0 2px 12px; margin-left: 6px; }
+}
+
+/* 화면이 낮으면 안내 문구를 줄여요 */
+@media (min-width: 900px) and (max-height: 820px) {
+  .lobby-info .hall-info { display: none; }
+  .lobby-info .entrance h1 { font-size: 34px; }
+}
+
+.lobby-portrait .art.photo {
+  width: fit-content;
+  min-height: 0;
+  margin: 0 auto;
+  padding: 14px;
+  border-width: 11px;
+}
+
+.lobby-portrait .art.photo img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+}
+
+.lobby-portrait figcaption {
+  margin-top: 14px;
+  font-size: 11px;
+  letter-spacing: .4em;
+  color: var(--brass);
+}
+
+/* 입구의 소개 문장 */
+.preface {
+  margin: 0 0 18px;
+  font-size: 14px;
+  color: var(--muted);
+  word-break: keep-all;
+}
+
+.hall-info {
+  margin: 0 0 36px;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: .08em;
+}
+
+.btn {
+  display: inline-block;
+  padding: 11px 30px;
+  border: 1px solid var(--brass);
+  color: var(--brass);
+  text-decoration: none;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: .15em;
+  transition: background .25s, color .25s;
+}
+
+.btn:hover {
+  background: var(--brass);
+  color: var(--wall);
+}
+
+/* ---------- 전시관 ---------- */
+section {
+  position: relative;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 72px 20px 24px;
+  scroll-margin-top: 50px;
+}
+
+.room-no {
+  margin: 0;
+  text-align: center;
+  letter-spacing: .5em;
+  font-size: 11px;
+  color: var(--brass);
+}
+
+section h2 {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: .1em;
+}
+
+.room-intro {
+  margin: 14px 0 56px;
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--muted);
+  word-break: keep-all;
+}
+
+/* 벽 아래쪽의 몰딩(걸레받이) 선 */
+section::after {
+  content: "";
+  display: block;
+  height: 14px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(184, 152, 90, .35);
+  border-bottom: 1px solid rgba(184, 152, 90, .15);
+}
+
+/* ---------- 액자 (입체) ---------- */
+.frame {
+  position: relative;
+  margin: 0 0 88px;
+  perspective: 900px;           /* 원근감: 이게 있어야 기울어질 때 입체로 보여요 */
+}
+
+/* 위에서 내려오는 작품 조명 */
+.frame::before {
+  content: "";
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  width: 150%;
+  height: 120%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 45% 55% at 50% 0%, rgba(255, 236, 190, .16), transparent 75%);
+  pointer-events: none;
+}
+
+.art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 210px;
+  padding: 40px;
+  margin: 0 auto;
+  width: min(100%, 380px);
+  color: #2a2622;
+  /* 아이보리 매트 */
+  background: var(--ivory);
+  /* 나무 액자: 두꺼운 테두리 + 안쪽 그림자 + 바깥 그림자 */
+  border: 16px solid var(--wood);
+  border-image: linear-gradient(135deg, #5a4030, #2c1f15 50%, #4a3425) 1;
+  box-shadow:
+    inset 0 0 0 2px rgba(184, 152, 90, .7),     /* 안쪽 황동 선 */
+    inset 0 6px 18px rgba(0, 0, 0, .35),        /* 매트 안쪽 깊이 */
+    0 2px 2px rgba(0, 0, 0, .5),
+    0 18px 30px -6px rgba(0, 0, 0, .7),         /* 벽에 드리운 그림자 */
+    0 40px 60px -20px rgba(0, 0, 0, .6);
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform .25s ease-out;
+  will-change: transform;
+}
+
+.art .big { font-size: 68px; line-height: 1; filter: saturate(.85); }
+
+.art svg {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .35);
+}
+
+/* 사진이 들어가는 액자: 매트를 얇게, 액자는 가로로 넓게 */
+.art.photo {
+  width: min(100%, 520px);
+  min-height: 0;
+  padding: 22px;
+}
+
+.art.photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .25), 0 3px 10px rgba(0, 0, 0, .35);
+}
+
+/* 세로 사진(책 표지): 좁은 액자, 이미지 맨 위의 제목 줄은 잘라 내요 */
+.art.photo.portrait {
+  width: min(100%, 300px);
+}
+
+.art.photo.portrait img {
+  aspect-ratio: 580 / 920;
+  object-fit: cover;
+  object-position: bottom;
+}
+
+/* 음식 사진: 세로로 긴 사진은 비율 그대로, 폭만 좁게 */
+.art.photo.food {
+  width: min(100%, 340px);
+}
+
+/* 액자 위에 비치는 유리 반사 */
+.art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, rgba(255,255,255,.22) 0%, transparent 38%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ---------- 작품 설명판 ---------- */
+.plate {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  width: min(100%, 300px);
+  margin: 30px auto 0;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, #d6c08a, #b8985a);   /* 황동 판 */
+  color: #231c10;
+  text-align: left;
+  word-break: keep-all;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+.plate strong {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.plate .meta {
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: #5a4520;
+}
+
+.plate .desc {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #3a2d14;
+}
+
+.small-btn {
+  justify-self: start;
+  margin-top: 10px;
+  padding: 5px 14px;
+  font-size: 12px;
+  border-color: #3a2d14;
+  color: #3a2d14;
+}
+
+.small-btn:hover {
+  background: #3a2d14;
+  color: #d6c08a;
+}
+
+/* ---------- 아직 비어 있는 액자 ---------- */
+.frame.empty .art {
+  background: transparent;
+  border: 1px dashed rgba(184, 152, 90, .45);
+  border-image: none;
+  box-shadow: none;
+  color: var(--muted);
+  opacity: .75;
+}
+
+.frame.empty .art::after { display: none; }
+
+.frame.empty .plate {
+  background: transparent;
+  box-shadow: none;
+  border: 1px solid rgba(184, 152, 90, .3);
+  color: var(--muted);
+}
+
+.frame.empty .plate .desc { color: var(--muted); }
+
+/* ---------- 전시 안내도 (대분류 › 중분류 › 소분류) ---------- */
+.map {
+  max-width: 420px;
+  margin: 0 auto 8px;
+  padding: 26px 28px;
+  border: 1px solid rgba(184, 152, 90, .45);
+  background: rgba(255, 255, 255, .02);
+  box-shadow: inset 0 0 0 4px var(--wall), inset 0 0 0 5px rgba(184, 152, 90, .25);
+}
+
+.map-title {
+  margin: 0 0 18px;
+  text-align: center;
+  letter-spacing: .4em;
+  font-size: 11px;
+  color: var(--brass);
+}
+
+.map-group + .map-group {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(184, 152, 90, .2);
+}
+
+.lv1 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  letter-spacing: .2em;
+  color: var(--ivory);
+}
+
+.lv2-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-left: 14px;
+  padding: 4px 0 4px 14px;
+  border-left: 1px solid rgba(184, 152, 90, .4);
+}
+
+.lv2 {
+  min-width: 42px;
+  text-decoration: none;
+  font-size: 15px;
+  color: var(--brass);
+  letter-spacing: .08em;
+}
+
+.lv3-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+
+.lv3-list a {
+  padding: 1px 12px;
+  border: 1px solid rgba(239, 232, 216, .25);
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 13px;
+  color: var(--muted);
+  transition: color .2s, border-color .2s;
+}
+
+.lv3-list a:hover,
+.lv2:hover {
+  color: var(--ivory);
+  border-color: var(--brass);
+}
+
+/* ---------- 분류 표시 (전시관 위 경로, 소분류 제목) ---------- */
+.crumb {
+  margin: 0 0 6px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: .15em;
+  color: var(--muted);
+}
+
+.sub {
+  scroll-margin-top: 60px;
+}
+
+.sub + .sub {
+  margin-top: 24px;
+}
+
+.sub-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 48px;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: .15em;
+  color: var(--ivory);
+}
+
+.sub-title small {
+  font-size: 10px;
+  letter-spacing: .3em;
+  color: var(--brass);
+}
+
+/* 소분류 제목 뒤로 이어지는 가는 선 */
+.sub-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(184, 152, 90, .35);
+}
+
+/* ---------- 로비의 문 (안내도에서 전시관으로 들어가기) ---------- */
+.lv2.door {
+  display: inline-block;
+  min-width: 0;
+  padding: 3px 14px;
+  border: 1px solid var(--brass);
+  font-size: 15px;
+}
+
+.lv2.door::after {
+  content: " 입장 →";
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+
+.lv2.door:hover {
+  background: var(--brass);
+  color: var(--wall);
+}
+
+.lv2.door:hover::after { color: var(--wall); }
+
+/* ---------- 전시관 페이지 (스크롤 없이 한 점씩 보기) ---------- */
+body.room {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.menu ul a[aria-current="page"] { color: var(--brass); }
+
+.room-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 22px 20px 20px;
+}
+
+.room-head { text-align: center; }
+.room-head .crumb { margin-bottom: 2px; }
+.room-head .room-no { margin: 0; }
+.room-head h2 { margin: 4px 0 0; font-size: 24px; }
+.room-head .room-intro { margin: 8px 0 14px; }
+
+/* 소분류 탭 */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 8px;
+}
+
+.tabs button {
+  padding: 5px 20px;
+  border: 1px solid rgba(184, 152, 90, .5);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.tabs button:hover { color: var(--ivory); }
+
+.tabs button.is-active {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: var(--wall);
+}
+
+/* 작품 무대: 한 번에 한 점만 */
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 0;
+}
+
+.stage .sub { width: 100%; }
+.stage .frame { margin: 0; }
+.stage .frame::before { top: -40px; }
+
+.js .sub { display: none; }
+.js .sub.is-active { display: block; }
+.js .frame { display: none; }
+.js .frame.is-active { display: block; animation: hang .5s ease both; }
+.js .sub-title { display: none; }
+
+@keyframes hang {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* 무대 안에서는 화면 높이에 맞춰 사진 크기를 제한해요 */
+.stage .frame .art { min-height: 0; }
+.stage .frame .art.photo {
+  display: flex;
+  width: fit-content;       /* 액자 폭을 사진 크기에 딱 맞춰요 */
+  max-width: 100%;
+  padding: 16px;
+  border-width: 12px;
+}
+
+.stage .frame .art.photo img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  /* 화면 높이에서 제목·탭·설명판·버튼 자리를 뺀 만큼만 사진에 써요 */
+  max-height: max(150px, calc(100vh - 570px));
+  max-height: max(150px, calc(100dvh - 570px));
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+.stage .frame .art:not(.photo) { min-height: 130px; width: min(100%, 300px); padding: 28px; }
+.stage .plate { width: min(100%, 420px); margin-top: 18px; }
+
+/* 화면이 낮으면 부가 설명을 줄여서 한 화면에 담아요 */
+@media (max-height: 720px) {
+  .room-head .room-intro,
+  .back-lobby { display: none; }
+  .room-head .room-no { display: none; }
+  .room-head h2 { margin-bottom: 10px; }
+}
+
+/* 키워드 액자: 액자 안에 해시태그를 글씨로 걸어요 */
+.tag-art {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tag-art span {
+  padding: 3px 14px;
+  border: 1px solid #8a7556;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #4b3b2e;
+}
+
+/* 작가 노트: 액자 안에 문장을 크게 걸어요 */
+.stage .frame .art.note {
+  width: min(100%, 440px);
+  min-height: 190px;
+}
+
+.note-text {
+  margin: 0;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.9;
+  letter-spacing: .04em;
+  color: #2a2622;
+  word-break: keep-all;
+}
+
+/* 이전 / 다음 */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 18px;
+}
+
+.pager[hidden], .tabs[hidden] { display: none; }
+
+.pager button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--brass);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--brass);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.pager button:hover:not(:disabled) { background: var(--brass); color: var(--wall); }
+.pager button:disabled { opacity: .25; cursor: default; }
+
+.pager .counter {
+  min-width: 56px;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: .2em;
+  color: var(--muted);
+}
+
+/* 로비로 돌아가는 길 */
+.back-lobby {
+  align-self: center;
+  margin-top: 18px;
+  font-size: 12px;
+  letter-spacing: .12em;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.back-lobby:hover { color: var(--ivory); }
+
+/* ---------- 출구 ---------- */
+.exit {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 56px 20px 48px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .08em;
+}
+
+.exit .thanks {
+  margin: 0 0 22px;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ivory);
+  letter-spacing: .05em;
+}
+
+.exit .btn { margin-bottom: 28px; }
+
+/* 맨 위로 버튼 */
+.to-top {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--brass);
+  background: rgba(29, 27, 26, .9);
+  color: var(--brass);
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.to-top:hover { background: var(--brass); color: var(--wall); }
+
+/* ---------- 폰처럼 좁은 화면 ---------- */
+@media (max-width: 520px) {
+  .menu { padding: 12px 14px; }
+  .menu ul { gap: 12px; }
+  .entrance { padding: 72px 16px 56px; }
+  .entrance h1 { font-size: 32px; letter-spacing: .08em; }
+  .art { min-height: 170px; padding: 28px; border-width: 12px; }
+  .frame { margin-bottom: 64px; }
+}
+
+/* 움직임을 줄여 달라고 설정한 사람은 멈춰요 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .art { transition: none; transform: none !important; }
+}

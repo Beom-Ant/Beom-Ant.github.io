@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>오영범 개인전</title>
+  <meta name="description" content="쉬는 날의 풍경들 - 오영범의 작은 개인 전시회">
+  <link rel="icon" href="ant.svg" type="image/svg+xml">
+  <!-- 명조 계열 글꼴 (인터넷이 없어도 batang으로 대신 보여요) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap">
+  <link rel="stylesheet" href="exhibition.css?v=17">
+</head>
+<body class="gallery">
+
+  <!-- 위쪽 메뉴 -->
+  <nav class="menu">
+    <a class="logo" href="exhibition.html">🖼️ 오영범 개인전</a>
+    <ul>
+      <li class="has-sub">
+        <a href="about.html">소개</a>
+        <ul class="submenu">
+          <li><a href="about.html#path">걸어온 길</a></li>
+          <li><a href="about.html#challenge">지금의 도전</a></li>
+          <li><a href="about.html#personality">성격</a></li>
+          <li><a href="about.html#values">가치관</a></li>
+          <li><a href="about.html#note">작가 노트</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <a href="domestic.html">여행</a>
+        <ul class="submenu">
+          <li><a href="domestic.html">국내</a></li>
+          <li><a href="overseas.html">국외</a></li>
+        </ul>
+      </li>
+      <li><a href="records.html">기록</a></li>
+      <li><a href="exhibition.html" aria-current="page">로비</a></li>
+    </ul>
+  </nav>
+
+  <!-- 로비 (입구): 넓은 화면에서는 왼쪽에 작가 초상, 오른쪽에 제목과 안내도 -->
+  <main class="lobby-wrap">
+
+  <!-- 작가 초상: 로비 맨 앞에 걸린 액자 -->
+  <figure class="lobby-portrait">
+    <div class="art photo">
+      <img src="photos/bike.jpg" alt="풀페이스 헬멧을 쓰고 브이를 하며 바이크 옆에 서 있는 오영범" width="1080" height="1430">
+    </div>
+    <figcaption>작가 오영범</figcaption>
+  </figure>
+
+  <div class="lobby-info">
+  <header class="hero entrance" id="top">
+    <p class="kicker">PERSONAL EXHIBITION</p>
+    <h1>오영범 개인전</h1>
+    <p class="subtitle">〈 쉬는 날의 풍경들 〉</p>
+    <p class="preface">자연과 경치, 그리고 사색의 시간을 담았어요.</p>
+    <p class="hall-info">전시관 4곳 · 관람 무료 · 마음에 드는 문으로 들어가 보세요 🚪</p>
+  </header>
+
+  <!-- 전시 안내도: 대분류 › 중분류 › 소분류 (누르면 그 전시관으로 들어가요) -->
+  <aside class="map" id="map" aria-label="전시 안내도">
+    <p class="map-title">전시 안내도</p>
+
+    <div class="map-group">
+      <p class="lv1">소개</p>
+      <div class="lv2-row">
+        <a class="lv2 door" href="about.html">오영범이란?</a>
+        <span class="lv3-list">
+          <a href="about.html#path">걸어온 길</a>
+          <a href="about.html#challenge">지금의 도전</a>
+          <a href="about.html#personality">성격</a>
+          <a href="about.html#values">가치관</a>
+          <a href="about.html#note">작가 노트</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="map-group">
+      <p class="lv1">여행</p>
+      <div class="lv2-row">
+        <a class="lv2 door" href="domestic.html">국내</a>
+        <span class="lv3-list">
+          <a href="domestic.html#gangneung">강릉</a>
+          <a href="domestic.html#wonju">원주</a>
+        </span>
+      </div>
+      <div class="lv2-row">
+        <a class="lv2 door" href="overseas.html">국외</a>
+        <span class="lv3-list">
+          <a href="overseas.html#switzerland">스위스</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="map-group">
+      <p class="lv1">기록</p>
+      <div class="lv2-row">
+        <a class="lv2 door" href="records.html">일기</a>
+      </div>
+    </div>
+  </aside>
+  </div>
+  </main>
+
+  <!-- 출구 -->
+  <footer class="footer exit">
+    <a class="btn" href="index.html">← 홈으로 돌아가기</a>
+    <p>© 2026 오영범 · 오영범 개인전</p>
+  </footer>
+
+</body>
+</html>
